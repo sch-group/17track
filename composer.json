@@ -1,0 +1,32 @@
+{
+    "name": "sch-group/17track",
+    "description": "17Track (SeventeenTrack) api connector",
+    "type": "library",
+    "require": {
+        "php": "^7.1",
+        "guzzlehttp/guzzle": "^6.2",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "piwik/ini": "^2.0",
+        "phpunit/phpunit": "~6.5.5",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "aahmetgaliev",
+            "email": "ainur_ahmetgalie@mail.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SchGroup\\SeventeenTrack\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SchGroup\\SeventeenTrack\\Tests\\": "tests/"
+        }
+    }
+}
