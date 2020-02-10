@@ -17,7 +17,7 @@ $isReggiestered = $trackingConnector->register($trackNumber);
 
 $isStopped = $trackingConnector->stopTracking($trackNumber);
 
-$isRetracked = $trackingConnector->reTrack($this->generateRandomString(10));
+$isRetracked = $trackingConnector->reTrack($trackNumber);
 
 $isChanged = $trackingConnector->changeCarrier($trackNumber, $newCarrierId);
 
