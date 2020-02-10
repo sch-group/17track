@@ -95,13 +95,42 @@ class TrackingConnector implements ShipmentTracker
 
         $this->checkEventHistory($trackInfo);
 
+        $mergedEvents = $this->mergeCarriersEvents($trackInfo);
+
+        return $this->collectTrackEvents($mergedEvents);
+
+    }
+
+    /**
+     * @param array $mergedEvents
+     * @return array
+     */
+    protected function collectTrackEvents(array $mergedEvents): array
+    {
         $trackEvents = [];
 
-        foreach ($trackInfo['track']['z1'] as $event) {
+        foreach ($mergedEvents as $event) {
             $trackEvents[] = new TrackEvent($event['a'], $event['z'], $event['c']);
         }
 
         return $trackEvents;
+    }
+
+    /**
+     * @param $trackInfo
+     * @return array
+     */
+    private function mergeCarriersEvents(array $trackInfo): array
+    {
+        $mergedEvents = array_merge($trackInfo['track']['z1'], $trackInfo['track']['z2']);
+
+        usort($mergedEvents, function ($itemOne, $itemSecond) {
+            return strtotime($itemOne['a']) - strtotime($itemSecond['a']);
+        });
+
+        ksort($mergedEvents);
+
+        return $mergedEvents;
     }
 
     /**
