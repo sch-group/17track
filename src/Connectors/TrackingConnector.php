@@ -34,12 +34,13 @@ class TrackingConnector implements ShipmentTracker
 
     /**
      * TrackingConnector constructor.
-     * @param Config $config
+     * @param string $apiKey
+     * @param string|null $host
      */
-    public function __construct(Config $config)
+    public function __construct(string $apiKey, string $host = null)
     {
-        $this->config = $config;
         $this->client = new Client();
+        $this->config = new Config($apiKey, $host);
     }
 
     /**

@@ -5,7 +5,6 @@ namespace SchGroup\SeventeenTrack\Tests;
 
 use Matomo\Ini\IniReader;
 use PHPUnit\Framework\TestCase;
-use SchGroup\SeventeenTrack\Components\Config;
 use SchGroup\SeventeenTrack\Components\TrackEvent;
 use SchGroup\SeventeenTrack\Connectors\TrackingConnector;
 use SchGroup\SeventeenTrack\Exceptions\SeventeenTrackMethodCallException;
@@ -18,14 +17,14 @@ class InitTest extends TestCase
     protected $trackNumber;
 
     /**
-     * @var TrackingConnector $trackingConnector
-     */
-    protected $trackingConnector;
-
-    /**
      * @var array
      */
     protected $config;
+
+    /**
+     * @var TrackingConnector $trackingConnector
+     */
+    protected $trackingConnector;
 
     /**
      * InitTest constructor.
@@ -39,7 +38,7 @@ class InitTest extends TestCase
         parent::__construct($name, $data, $dataName);
         $reader = new IniReader();
         $this->config = $reader->readFile(__DIR__ . '/config.ini');
-        $this->trackingConnector = new TrackingConnector(new Config($this->config['api_key']));
+        $this->trackingConnector = new TrackingConnector($this->config['api_key']);
         $this->trackNumber = $this->config['track_number'];
     }
 
@@ -111,6 +110,7 @@ class InitTest extends TestCase
 
     /**
      * @test
+     * @throws SeventeenTrackMethodCallException
      */
     public function it_gets_multi_pure_array_of_last_statuses_with_many_tracks()
     {
