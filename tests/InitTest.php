@@ -88,7 +88,6 @@ class InitTest extends TestCase
     public function it_gets_pure_info()
     {
         $trackInfo = $this->trackingConnector->getPureTrackInfo($this->trackNumber);
-        print_r($trackInfo);
         $this->assertInstanceOf(TrackEvent::class, $trackInfo[0]);
         /* @var TrackEvent $firstTrackEvent */
         $firstTrackEvent = $trackInfo[0];

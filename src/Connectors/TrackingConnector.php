@@ -3,7 +3,6 @@
 namespace SchGroup\SeventeenTrack\Connectors;
 
 use GuzzleHttp\Client;
-use SchGroup\SeventeenTrack\Helpers\Preparer;
 use SchGroup\SeventeenTrack\Components\Config;
 use SchGroup\SeventeenTrack\Components\TrackEvent;
 use SchGroup\SeventeenTrack\Contracts\ShipmentTracker;
@@ -33,11 +32,6 @@ class TrackingConnector implements ShipmentTracker
     private $config;
 
     /**
-     * @var Preparer
-     */
-    private $preparer;
-
-    /**
      * TrackingConnector constructor.
      * @param string $apiKey
      * @param string|null $host
@@ -46,7 +40,6 @@ class TrackingConnector implements ShipmentTracker
     {
         $this->client = new Client();
         $this->config = new Config($apiKey, $host);
-        $this->preparer = new Preparer();
     }
 
     /**
@@ -130,15 +123,11 @@ class TrackingConnector implements ShipmentTracker
     {
         $mergedEvents = array_merge($trackInfo['track']['z1'], $trackInfo['track']['z2']);
 
-        $uniqueEvents = $this->preparer->makeUniqueArray($mergedEvents, 'z');
-
-        usort($uniqueEvents, function ($itemOne, $itemSecond) {
+        usort($mergedEvents, function ($itemOne, $itemSecond) {
             return strtotime($itemSecond['a']) - strtotime($itemOne['a']);
         });
 
-        ksort($uniqueEvents);
-
-        return $uniqueEvents;
+        return $mergedEvents;
     }
 
     /**
