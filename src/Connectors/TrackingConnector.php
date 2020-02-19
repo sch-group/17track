@@ -109,7 +109,7 @@ class TrackingConnector implements ShipmentTracker
         $trackEvents = [];
 
         foreach ($mergedEvents as $event) {
-            $trackEvents[] = new TrackEvent($event['a'], $event['z'], $event['c'] . $event['d']);
+            $trackEvents[] = new TrackEvent($event['a'], $event['z'], $event['c'] . ' ' . $event['d']);
         }
 
         return $trackEvents;
@@ -151,7 +151,7 @@ class TrackingConnector implements ShipmentTracker
 
         $lastEvent = $trackInfo['track']['z0'];
 
-        return new TrackEvent($lastEvent['a'], $lastEvent['z'], $lastEvent['c'] . $lastEvent['d']);
+        return new TrackEvent($lastEvent['a'], $lastEvent['z'], $lastEvent['c'] . ' '. $lastEvent['d']);
     }
 
     /**
@@ -176,7 +176,7 @@ class TrackingConnector implements ShipmentTracker
         foreach ($tracksInfo['data']['accepted'] as $trackInfo) {
             if (!empty($trackInfo['track']['z0'])) {
                 $event = $trackInfo['track']['z0'];
-                $lastTracksEvents[$trackInfo['number']] = new TrackEvent($event['a'], $event['z'], $event['c'] . $event['d']);
+                $lastTracksEvents[$trackInfo['number']] = new TrackEvent($event['a'], $event['z'], $event['c'] . ' ' . $event['d']);
             }
         }
 
