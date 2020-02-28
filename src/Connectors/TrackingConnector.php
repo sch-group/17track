@@ -96,20 +96,21 @@ class TrackingConnector implements ShipmentTracker
 
         $mergedEvents = $this->mergeCarriersEvents($trackInfo);
 
-        return $this->collectTrackEvents($mergedEvents);
+        return $this->collectTrackEvents($mergedEvents, $trackInfo['track']['e']);
 
     }
 
     /**
      * @param array $mergedEvents
+     * @param int $commonTrackStatusCode
      * @return array
      */
-    protected function collectTrackEvents(array $mergedEvents): array
+    protected function collectTrackEvents(array $mergedEvents, int $commonTrackStatusCode): array
     {
         $trackEvents = [];
 
         foreach ($mergedEvents as $event) {
-            $trackEvents[] = new TrackEvent($event['a'], $event['z'], $event['c'] . ' ' . $event['d']);
+            $trackEvents[] = new TrackEvent($event['a'], $event['z'], $event['c'] . ' ' . $event['d'], $commonTrackStatusCode);
         }
 
         return $trackEvents;
@@ -151,7 +152,7 @@ class TrackingConnector implements ShipmentTracker
 
         $lastEvent = $trackInfo['track']['z0'];
 
-        return new TrackEvent($lastEvent['a'], $lastEvent['z'], $lastEvent['c'] . ' '. $lastEvent['d']);
+        return new TrackEvent($lastEvent['a'], $lastEvent['z'], $lastEvent['c'] . ' ' . $lastEvent['d'], $trackInfo['track']['e']);
     }
 
     /**
@@ -176,7 +177,10 @@ class TrackingConnector implements ShipmentTracker
         foreach ($tracksInfo['data']['accepted'] as $trackInfo) {
             if (!empty($trackInfo['track']['z0'])) {
                 $event = $trackInfo['track']['z0'];
-                $lastTracksEvents[$trackInfo['number']] = new TrackEvent($event['a'], $event['z'], $event['c'] . ' ' . $event['d']);
+                $lastTracksEvents[$trackInfo['number']] = new TrackEvent(
+                    $event['a'], $event['z'],
+                    $event['c'] . ' ' . $event['d'],
+                    $trackInfo['track']['e']);
             }
         }
 
