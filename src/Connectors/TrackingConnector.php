@@ -43,6 +43,14 @@ class TrackingConnector implements ShipmentTracker
     }
 
     /**
+     * @return Config
+     */
+    public function getConfig() : Config
+    {
+        return $this->config;
+    }
+
+    /**
      * @param string $trackNumber
      * @return bool
      * @throws SeventeenTrackMethodCallException
