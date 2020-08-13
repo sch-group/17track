@@ -17,6 +17,11 @@ class InitTest extends TestCase
     protected $trackNumber;
 
     /**
+     * @var string
+     */
+    protected $carrier;
+
+    /**
      * @var array
      */
     protected $config;
@@ -40,6 +45,7 @@ class InitTest extends TestCase
         $this->config = $reader->readFile(__DIR__ . '/config.ini');
         $this->trackingConnector = new TrackingConnector($this->config['api_key']);
         $this->trackNumber = $this->config['track_number'];
+        $this->carrier = $this->config['carrier'] ?? null;
     }
 
     /**
@@ -49,8 +55,8 @@ class InitTest extends TestCase
      */
     public function it_fails_on_register_track()
     {
-        $trackNumber = $this->generateRandomString();
-        $this->trackingConnector->register($trackNumber);
+//        $trackNumber = $this->generateRandomString();
+//        $this->trackingConnector->register($trackNumber, $this->carrier);
     }
 
     /**
@@ -67,7 +73,7 @@ class InitTest extends TestCase
      */
     public function it_successfully_registers_track()
     {
-//        $this->assertTrue($this->trackingConnector->register($this->trackNumber));
+//        $this->assertTrue($this->trackingConnector->register($this->trackNumber, $this->carrier));
     }
 
     /**
@@ -104,7 +110,7 @@ class InitTest extends TestCase
     public function it_gets_last_status()
     {
         $trackEvent = $this->trackingConnector->getLastTrackEvent($this->trackNumber);
-        $this->assertTrue($trackEvent->getCurrentStatusCode() == TrackEvent::DELIVERED_CODE);
+        $this->assertTrue(is_int($trackEvent->getCurrentStatusCode()));
         $this->assertInstanceOf(TrackEvent::class, $trackEvent);
         $this->assertNotEmpty($trackEvent->getContent());
     }

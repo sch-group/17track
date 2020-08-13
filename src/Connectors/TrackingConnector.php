@@ -52,14 +52,23 @@ class TrackingConnector implements ShipmentTracker
 
     /**
      * @param string $trackNumber
+     * @param string|null $carrier
+     * @param string|null $tag
      * @return bool
      * @throws SeventeenTrackMethodCallException
      */
-    public function register(string $trackNumber): bool
+    public function register(string $trackNumber, string $carrier = null, string $tag = null): bool
     {
-        $response = $this->registerMulti([[
-            'number' => $trackNumber
-        ]]);
+        $params = ['number' => $trackNumber];
+        if(!empty($carrier)) {
+            $params['carrier'] = $carrier;
+        }
+        if(!empty($tag)) {
+            $params['tag'];
+        }
+        $response = $this->registerMulti([
+            $params
+        ]);
         $this->checkErrors($response, self::REGISTER_URI);
 
         return true;

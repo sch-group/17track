@@ -6,7 +6,7 @@ use SchGroup\SeventeenTrack\Components\TrackEvent;
 
 interface ShipmentTracker
 {
-    public function register(string $trackNumber): bool;
+    public function register(string $trackNumber, string $carrier = null, string $tag = null): bool;
 
     public function getTrackInfo(string $trackNumber, int $carrier = null): array;
 
