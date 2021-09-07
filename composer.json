@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=7.1",
-        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle": ">=6.2",
         "ext-json": "*"
     },
     "require-dev": {
